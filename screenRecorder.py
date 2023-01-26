@@ -14,9 +14,17 @@ fourcc = c.VideoWriter_fourcc(*'XVID')
 output = c.VideoWriter(fn, fourcc, fps, rs)
 
 # creating recording module
-c.namedWindow("Live_Recording",c.WINDOW_NORMAL)
-c.resize("Live_Recording",(600,400))
+c.namedWindow("Live_Recording", c.WINDOW_NORMAL)
+c.resize("Live_Recording", (600, 400))
 
 while True:
-    img=p.screenshot()
-    f=np.array()
+    img = p.screenshot()
+    f = np.array(img)
+    f = c.cvtColor(f, c.COLOR_BGR2RGB)
+    output.write(f)
+    c.imshow("Live_Recording", f)
+    if c.waitKey(1) == ord("q"):
+        break
+
+output.release()
+c.destroyAllWindows()
